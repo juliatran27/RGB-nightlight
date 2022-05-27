@@ -22,7 +22,8 @@
 #define blueLED 11
 
 int threshold = 400;            //if the photoresistor reading is lower than this value the light will turn on
-
+int photoVal;
+int potentVal;
 //the darker the lower the value for the photoresistor
 //the brighter the higher the value
 
@@ -35,18 +36,8 @@ void setup() {
   pinMode(greenLED, OUTPUT);
   pinMode(blueLED, OUTPUT);
 }
-
-void loop() {
-
-  int photoVal = analogRead(photoresistor);         //read the value of the photoresistor
-  int potentVal = 2*analogRead(potentiometer);
-
-  Serial.print("Photoresistor value:");
-  Serial.print(photoVal);          //print the photoresistor value to the serial monitor
-  Serial.print("  Potentiometer value:");
-  Serial.println(potentVal);          //print the potentiometer value to the serial monitor
-
-  if (photoVal < threshold) {        //if it's dark (the photoresistor value is below the threshold) turn the LED on
+void manualRGB() {
+    if (photoVal < threshold) {        //if it's dark (the photoresistor value is below the threshold) turn the LED on
     //These nested if statements check for a variety of ranges and
     //call different functions based on the current potentiometer value.
     //Those functions are found at the bottom of the sketch.
@@ -76,6 +67,46 @@ void loop() {
     turnOff();                            //call the turn off function
 
   }
+}
+void autoRGB() {
+    if(photoVal<threshold){
+        pink();
+        delay(500);
+        red();
+        delay(500);
+        orange();
+        delay(500);
+        yellow();
+        delay(500);
+        green();
+        delay(500);
+        olive();
+        delay(500);
+        cyan();
+        delay(500);
+        teal();
+        delay(500);
+        blue();
+        delay(500);
+        lilac();
+        delay(500);
+        white();
+    }else{
+        turnOff();
+    }
+    
+}
+void loop() {
+
+    photoVal = analogRead(photoresistor);         //read the value of the photoresistor
+    potentVal = 2*analogRead(potentiometer);
+
+  Serial.print("Photoresistor value:");
+  Serial.print(photoVal);          //print the photoresistor value to the serial monitor
+  Serial.print("  Potentiometer value:");
+  Serial.println(potentVal);          //print the potentiometer value to the serial monitor
+
+ manualRGB();
 
   delay(100);                             //short delay so that the printout is easier to read
 }
